@@ -1,0 +1,81 @@
+package edlJava;
+
+public class Queue implements QueueInterface{
+	private int head;
+	private int tail;
+	private int[] queue;
+	private int length;
+	private int growthValue;
+	
+	
+	
+	public Queue(int length, int growth) {
+		head = 0;
+		tail = -1;
+		queue = new int[length];
+		growthValue = growth;
+		
+		if (growth <= 0) {
+			growthValue = 0;
+		}
+	}
+	
+	@Override
+	public void enqueue(int value) {
+		if (tail>= queue.length -1) {
+			if (growthValue == 0) {
+				length*=2;
+			}
+			else {
+				length+=growthValue;
+			}
+			int[] newQueue = new int[length];
+			
+			for (int i=0; i< queue.length; i++) {
+				newQueue[i] = queue[i];
+			}
+			queue = newQueue;
+		}
+		tail++;
+		queue[tail] = value;
+	}
+	
+	@Override
+	public int dequeue() {
+		if (isEmpty()) {
+			throw new IllegalArgumentException("Fila esta vazia");
+		}
+		int toRemove = queue[head];
+		head++;
+		return toRemove;
+	}
+	
+	@Override
+	public int front() {
+		if (isEmpty()) {
+			throw new IllegalArgumentException("Fila esta vazia");
+		}
+		return queue[head];
+	}
+	
+	@Override
+	public boolean isEmpty() {
+		if (tail == -1) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isFull() {
+		if (tail >=queue.length -1) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public int size() {
+		return tail + 1;
+	}
+}

@@ -1,30 +1,28 @@
 package edlJava;
 
-public class Stack implements StackInterface{
+public class StackRevisado {
     private int last;
     private int[] stack;
-    private int growthValue;
+    private int tipoCrescimento;
     private int lenght;
     
-    
-    public Stack(int lenght, int growth) {
+    public StackRevisado(int lenght, int crescimento) {
+    	this.lenght = lenght;
         last = -1;
         stack = new int[lenght];
-        growthValue = growth;
-        this.lenght = lenght;
-        
-        if (growth <= 0) {
-        	growthValue = 0;
+        tipoCrescimento = crescimento;
+        if (crescimento <= 0) {
+        	tipoCrescimento = 0;
         }
     }
-    @Override
+
     public boolean isEmpty() {
         if (last == -1) {
             return true;
         }
         return false;
     }
-    @Override
+
     public boolean isFull() {
         if (last == stack.length -1) {
             return true;
@@ -32,32 +30,33 @@ public class Stack implements StackInterface{
         return false;
     }
 
-//    public void push(int value) {
-//        if (isFull()) {
-//            throw new IllegalStateException("A pilha ja atingiu sua capacidade maxima");
-//        }
-//        last++;
-//        stack[last] = value;
-//    }
-    @Override
     public void push(int value) {
-        if (last >= stack.length -1) {
-        	if (growthValue == 0) {
-        		lenght*=2;
-        	}
-        	else {
-        		lenght+=growthValue;
-        	}
-        	int[] newStack = new int[lenght];
-        	for (int i=0; i < stack.length; i++) {
-        		newStack[i] = stack[i];
-        	}
-        	stack = newStack;
+        if (isFull()) {
+            throw new IllegalStateException("A pilha ja atingiu sua capacidade maxima");
         }
         last++;
         stack[last] = value;
     }
-    @Override
+    
+    public void push2(int value) {
+    	if (last >= lenght-1) {
+    		if (tipoCrescimento == 0) {
+    			lenght*=2;
+    		}
+    		else {
+    			lenght+=tipoCrescimento;
+    		}
+    		int[] newStack = new int[lenght];
+    		
+    		for (int i=0; i<stack.length; i++) {
+    			newStack[i] = stack[i];
+    		}
+    		stack = newStack;
+    	}
+    	stack[++last] = value;
+    	    		
+    }
+
     public int pop() {
         if (isEmpty()) {
             throw new IllegalStateException("A pilha ja esta vazia");
@@ -66,15 +65,15 @@ public class Stack implements StackInterface{
         last--;
         return toRemove;
     }
-    @Override
+
     public int top() {
         return stack[last];
     }
-    @Override
+
     public int size() {
         return last + 1;
     }
-    @Override
+
     public boolean contains(int value) {
         for (int i = 0; i < stack.length; i++) {
             if (value == stack[i]) {
