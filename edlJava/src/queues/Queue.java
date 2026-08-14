@@ -6,15 +6,17 @@ public class Queue implements QueueInterface{
 	private int[] queue;
 	private int length;
 	private int growthValue;
+	private int size;
 	
 	
 	
 	public Queue(int length, int growth) {
+		this.length = length;
+		size = 0;
 		head = 0;
 		tail = -1;
 		queue = new int[length];
 		growthValue = growth;
-		
 		if (growth <= 0) {
 			growthValue = 0;
 		}
@@ -36,6 +38,7 @@ public class Queue implements QueueInterface{
 			}
 			queue = newQueue;
 		}
+		size++;
 		tail++;
 		queue[tail] = value;
 	}
@@ -46,7 +49,15 @@ public class Queue implements QueueInterface{
 			throw new IllegalArgumentException("Fila esta vazia");
 		}
 		int toRemove = queue[head];
-		head++;
+		size--;
+		if (this.head == this.tail) {
+			this.head = -1;
+			this.tail = -1;
+		}
+		else {
+			head++;
+		}
+		
 		return toRemove;
 	}
 	
@@ -68,7 +79,7 @@ public class Queue implements QueueInterface{
 	
 	@Override
 	public int size_() {
-		return tail + 1;
+		return size;
 	}
 	
 	@Override

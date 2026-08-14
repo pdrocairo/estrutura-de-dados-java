@@ -1,6 +1,6 @@
 package stacks;
 
-public interface StackInterface {
+interface StackInterface {
 	boolean isEmpty();
 	void push(int value);
 	int pop();

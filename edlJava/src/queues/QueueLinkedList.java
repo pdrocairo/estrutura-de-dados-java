@@ -77,6 +77,16 @@ public class QueueLinkedList implements QueueInterface{
 		return toRemove;
 	}
 	
+	public void display() {
+		Node current = this.head;
+		while (current != null) {
+			System.out.println(current.value);
+			current = current.next;
+			
+		}
+		
+	}
+	
 	
 
 }

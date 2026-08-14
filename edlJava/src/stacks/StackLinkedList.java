@@ -12,6 +12,7 @@ public class StackLinkedList implements StackInterface{
         this.top = null;
         size = 0;
     }
+    
     @Override
     public boolean isEmpty() {
         if (this.top == null && size == 0) {

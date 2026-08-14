@@ -1,6 +1,6 @@
 package queues;
 
-public interface QueueInterface {
+interface QueueInterface {
 	boolean isEmpty();
 	int size_();
 	int front();
