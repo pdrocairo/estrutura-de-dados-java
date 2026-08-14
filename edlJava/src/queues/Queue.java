@@ -1,4 +1,4 @@
-package edlJava;
+package queues;
 
 public class Queue implements QueueInterface{
 	private int head;
@@ -67,15 +67,23 @@ public class Queue implements QueueInterface{
 	}
 	
 	@Override
+	public int size_() {
+		return tail + 1;
+	}
+	
+	@Override
+	public int back() {
+		if (isEmpty()) {
+			throw new IllegalArgumentException("Fila esta vazia");
+		}
+		return queue[tail];
+	}
+	
+
 	public boolean isFull() {
 		if (tail >=queue.length -1) {
 			return true;
 		}
 		return false;
-	}
-	
-	@Override
-	public int size() {
-		return tail + 1;
 	}
 }
