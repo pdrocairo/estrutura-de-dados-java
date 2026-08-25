@@ -1,6 +1,6 @@
 package main;
 import queues.Queue;
-import queues.QueueLinkedList;
+import queues.QueueDoubleLinkedList;
 
 import stacks.Stack;
 import stacks.StackLinkedList;
@@ -157,7 +157,7 @@ public class Main {
 
 	static void testQueueLinkedList() {
 		System.out.println("\n--- QueueLinkedList ---");
-		QueueLinkedList fila = new QueueLinkedList();
+		QueueDoubleLinkedList fila = new QueueDoubleLinkedList();
 
 		check("fila nova deve estar vazia", fila.isEmpty());
 		check("tamanho inicial deve ser 0", fila.size_() == 0);

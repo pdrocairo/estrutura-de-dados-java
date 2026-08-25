@@ -49,7 +49,7 @@ public class Pilha {
     		this.topBlack = this.topBlack + this.growth-oldGrowth;
     		array = newArray;
     	}
-		else if(n*3 <= this.growth) {
+		else if(n*3 == this.growth) {
     		this.growth/=2;
     		int[] newArray = new int[this.growth];
     		for (int r=0; r< this.sizeR;r++) {

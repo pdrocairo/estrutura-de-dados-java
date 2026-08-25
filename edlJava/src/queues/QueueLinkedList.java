@@ -1,92 +1,74 @@
 package queues;
 
 public class QueueLinkedList implements QueueInterface{
-	private static class Node{
+	
+	public class Node{
 		int value;
 		Node previous = null;
-		Node next = null;
 	}
-	private Node head, tail;
+	Node first = null;
+	Node last = null;
 	private int size;
 	
 	public QueueLinkedList() {
-		this.head = null;
-		this.tail = null;
-		size = 0;
+		this.first = null;
+		this.last = null;
+		this.size = 0;
 	}
 	
+	@Override
 	public boolean isEmpty() {
-		if (head == null) {
+		if (this.first == null) {
 			return true;
 		}
 		return false;
 	}
 	
+	@Override
 	public int size_() {
-		return size;
+		return this.size;
 	}
 	
-	public int front() {
-		if (isEmpty()) {
-			throw new IllegalStateException("Queue vazia");
-		}
-		return this.head.value;
-	}
-	
+	@Override
 	public int back() {
-		if (isEmpty()) {
-			throw new IllegalStateException("Queue vazia");
-		}
-		return this.tail.value;
+		return this.last.value;
 	}
 	
+	@Override
+	public int front() {
+		return this.first.value;
+	}
+	
+	@Override
 	public void enqueue(int value) {
 		Node newNode = new Node();
 		newNode.value = value;
-		newNode.previous = null;
-		newNode.next = null;
-		if (this.head == null) {
-			this.head = newNode;
+		if (this.first == null) {
+			this.first = newNode;
+			this.last = newNode;
 		}
-		else {
-			newNode.previous = this.tail;
-			this.tail.next = newNode;
-		}
-		this.tail = newNode;
+		this.first.previous = newNode;
+		this.first = newNode;
 		size++;
 	}
 	
+	@Override
 	public int dequeue() {
 		if (isEmpty()) {
-			throw new IllegalStateException("Queue vazia");
+			throw new IllegalStateException("Fila vazia");
 		}
-		if (this.head == this.tail) {
-			int toRemove = this.head.value;
-			this.tail = null;
-			this.head = null;
+		if (this.first == this.last) {
+			int toRemove = this.last.value;
+			this.first = null;
+			this.last = null;
 			size--;
 			return toRemove;
 		}
-		
-		int toRemove = this.head.value;
-		Node nextNode = this.head.next;
-		this.head.next = null;
-		this.head = nextNode;
-		this.head.previous = null;
+		int toRemove = this.last.value;
+		this.last = this.last.previous;
+		this.last.previous = null;
 		size--;
 		return toRemove;
-	}
-	
-	public void display() {
-		Node current = this.head;
-		while (current != null) {
-			System.out.println(current.value);
-			current = current.next;
-			
-		}
 		
 	}
-	
-	
-
 }
