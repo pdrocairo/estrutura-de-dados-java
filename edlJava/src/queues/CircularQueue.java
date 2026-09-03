@@ -14,7 +14,6 @@ public class CircularQueue implements QueueInterface{
 		this.length = length;
 		this.head = 0;
 		this.tail = 0;
-		
 	}
 	
 	public boolean isEmpty() {
@@ -38,7 +37,6 @@ public class CircularQueue implements QueueInterface{
 		queue[this.tail] = value;
 		this.tail = (this.tail + 1)% this.length;
 		this.size++;
-		
 	}
 	
 	public int dequeue() {
