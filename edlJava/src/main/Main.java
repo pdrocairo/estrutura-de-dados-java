@@ -1,38 +1,30 @@
 package main;
 
-import vector.*;
+import list.*;
 
 public class Main {
-
     public static void main(String[] args) {
-        VectorArray array = new VectorArray(9, 0);
-
-        array.add(1);
-        array.add(2);
-        array.add(3);
-        array.add(4);
-        array.add(6);
-        array.add(7);
-        array.add(7);
-        array.add(7);
-        array.add(7);
-
-//        for (int i = 0; i < array.size_(); i++) {
-//            int num = array.getAt(i);
-//            System.out.println(num);
-//        }
-
-//        System.out.println(array.getAt(3));
-        array.setAt(3, 1);
-//        System.out.println(array.getAt(3));
-        array.removeAt(3);
-
-//        for (int i = 0; i < array.size_(); i++) {
-//            int num = array.getAt(i);
-//            System.out.println(num);
-//        }
         
-        System.out.println(array.size_());
+        ListArray list = new ListArray(2, 2); 
         
+        list.insertLast(10);
+        list.insertLast(30);
+        list.insertFirst(5);
+        list.insertBefore(2, 20);
+        
+        System.out.println("Tamanho atual: " + list.size_()); 
+        
+       
+        for (int i = 0; i < list.size_(); i++) {
+            System.out.print(list.elemAtRank(i) + " ");
+        }
+        
+        System.out.println("--index=1 => (valor 10)...");
+        list.remove(1); 
+        
+       
+        for (int i = 0; i < list.size_(); i++) {
+            System.out.print(list.elemAtRank(i) + " "); 
+        }
     }
-} 
+}
