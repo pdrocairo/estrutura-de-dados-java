@@ -34,10 +34,10 @@ public class Pilha {
 	}
 	
 	private void tryResize() {
-		int n = sizeR + sizeB;
+		int totalSize = sizeR + sizeB;
 		int oldGrowth = this.growth;
 	
-		if (this.topBlack -1 == this.topRed) {
+		if (this.topBlack -1 == this.topRed) { // faltando 1 espaco para encher o array
     		this.growth*=2;
     		int[] newArray = new int[this.growth];
     		for (int r=0; r< this.sizeR;r++) {
@@ -46,10 +46,10 @@ public class Pilha {
     		for (int b=oldGrowth-1; b> this.topBlack -1;b--) {
     			newArray[b+this.growth-oldGrowth] = array[b];
     		}
-    		this.topBlack = this.topBlack + this.growth-oldGrowth;
+    		this.topBlack = this.topBlack + this.growth-oldGrowth; // o novo tamanho eh SizeAnterior + (CapacidadeNova-CapacidadeAntiga)
     		array = newArray;
     	}
-		else if(n*3 == this.growth) {
+		else if(totalSize*3 == this.growth) { 
     		this.growth/=2;
     		int[] newArray = new int[this.growth];
     		for (int r=0; r< this.sizeR;r++) {
