@@ -97,7 +97,7 @@ public class Vetor{
     }
 
     public void insertAtRank(int idx, int value){
-        if (idx < 0 || idx>=this.size_){
+        if (idx < 0 || idx>this.size_){
             throw new IllegalStateException("indice fora do range");
         }
         Node node = this.first;
@@ -107,10 +107,65 @@ public class Vetor{
         Node newNode = new Node();
         newNode.value = value;
         
-        if(this.first == this.last){
+        if (idx == 0 && this.first != null){
+           newNode.next = this.first;
+           this.first.previous = newNode; 
+           this.first = newNode;
+        }
+        else if(this.first == null){
             this.first = newNode;
             this.last = newNode;
         }
-        else if ()
+        else if (this.first == this.last){
+            this.first.previous = newNode;
+            newNode.next = this.first;
+            this.first = newNode;
+        }
+
+        else{
+            node.previous.next = newNode;
+            newNode.previous = node.previous;
+            node.previous = newNode;
+            newNode.next = node;
+        }
+        this.size_++;
+    }
+
+    public int removeAtRank(int idx){
+        if (isEmpty()){
+            throw new IllegalStateException("vetor vazio");
+        }
+        if (idx < 0 || idx>=this.size_){
+            throw new IllegalStateException("indice fora do range");
+        }
+
+        Node node = this.first;
+
+        for (int i=0;i<idx;i++){
+            node = node.next;
+        }
+        int toRemove = node.value;
+        if (this.first == this.last){
+            this.first = null;
+            this.last = null;
+        }
+        else if (node == this.first){
+            node.next.previous = null;
+            this.first = node.next;
+            node.next = null;
+        }
+        else if (node == this.last){
+            node.previous.next = null;
+            this.last = node.previous;
+            node.previous = null;
+        }
+        else{
+            node.previous.next = node.next;
+            node.next.previous = node.previous;
+            node.previous = null;
+            node.next = null;
+        }
+        this.size_--;
+        return toRemove;
     }
 }
