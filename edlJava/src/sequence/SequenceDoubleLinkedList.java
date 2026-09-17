@@ -1,7 +1,7 @@
 package sequence;
 
 // implements SequenceInterface<T>
-public class SequenceDoubleLinkedList<T> {
+public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 	public class Node implements Position<T>{
 		T value;
 		Node previous;
@@ -24,34 +24,34 @@ public class SequenceDoubleLinkedList<T> {
 		this.firstSentinel.next = this.lastSentinel;
 		this.lastSentinel.previous = this.firstSentinel;
 	}
-	
+	@Override
 	public boolean isEmpty() {
 		if (this.size_ == 0) {
 			return true;
 		}return false;
 	}
-	
+	@Override
 	public int size() {
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
 		}
 		return this.size_;
 	}
-	
+	@Override
 	public Position<T> first(){
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
 		}
 		return this.firstSentinel.next;
 	}
-	
+	@Override
 	public Position<T> last(){
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
 		}
 		return this.lastSentinel.previous;
 	}
-	
+	@Override
 	public boolean isFirst(Position<T> position) {
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
@@ -61,7 +61,7 @@ public class SequenceDoubleLinkedList<T> {
 		}
 		return false;
 	}
-	
+	@Override
 	public boolean isLast(Position<T> position) {
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
@@ -71,7 +71,7 @@ public class SequenceDoubleLinkedList<T> {
 		}
 		return false;
 	}
-	
+	@Override
 	public Position<T> insertFirst(T value){
 		Node newNode = new Node();
 		newNode.value = value;
@@ -84,7 +84,7 @@ public class SequenceDoubleLinkedList<T> {
 		this.size_++;
 		return newNode;
 	}
-	
+	@Override
 	public Position<T> insertLast(T value){
 		Node newNode = new Node();
 		newNode.value = value;
@@ -97,7 +97,7 @@ public class SequenceDoubleLinkedList<T> {
 		this.size_++;
 		return newNode;
 	}
-
+	@Override
 	private Node checkPosition(Position<T> position) {
 		if (position == null) {
 			throw new IllegalArgumentException("position nao pode ser null");
@@ -114,7 +114,7 @@ public class SequenceDoubleLinkedList<T> {
 		
 		return node;
 	}
-	
+	@Override
 	public Position<T> before(Position<T> position){
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
@@ -124,7 +124,7 @@ public class SequenceDoubleLinkedList<T> {
 		}
 		return checkPosition(position).previous;
 	}
-	
+	@Override
 	public Position<T> after(Position<T> position){
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
@@ -135,7 +135,7 @@ public class SequenceDoubleLinkedList<T> {
 		
 		return checkPosition(position).next;
 	}
-	
+	@Override
 	public T replaceValue(Position<T> position, T value) {
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
@@ -145,7 +145,7 @@ public class SequenceDoubleLinkedList<T> {
 		
 		return toRemove;
 	}
-	
+	@Override
 	public void swapValues(Position<T> positionA, Position<T> positionB) {
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
@@ -157,7 +157,7 @@ public class SequenceDoubleLinkedList<T> {
 		nodeA.value = nodeB.value;
 		nodeB.value = valueA;
 	}
-	
+	@Override
 	public Position<T> insertBefore(Position<T> position, T value){
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
@@ -175,7 +175,7 @@ public class SequenceDoubleLinkedList<T> {
 		
 		return newNode;
 	}
-	
+	@Override
 	public Position<T> insertAfter(Position<T> position, T value){
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
@@ -192,7 +192,7 @@ public class SequenceDoubleLinkedList<T> {
 		this.size_++;
 		return newNode;
 	}
-	
+	@Override
 	public T remove(Position<T> position) {
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
@@ -207,5 +207,7 @@ public class SequenceDoubleLinkedList<T> {
 		this.size_--;
 		return toRemove;
 	}
+	
+	
 	
 }
