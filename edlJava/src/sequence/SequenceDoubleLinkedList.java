@@ -6,17 +6,17 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 		T value;
 		Node previous;
 		Node next;
-		
+
 		@Override
 		public T value() {
-			return this.value();
+			return this.value;
 		}
 	}
-	
+
 	private Node firstSentinel;
 	private Node lastSentinel;
 	private int size_;
-	
+
 	public SequenceDoubleLinkedList() {
 		this.firstSentinel = new Node();
 		this.lastSentinel = new Node();
@@ -75,12 +75,12 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 	public Position<T> insertFirst(T value){
 		Node newNode = new Node();
 		newNode.value = value;
-		
+
 		newNode.previous = this.firstSentinel;
 		this.firstSentinel.next.previous = newNode;
 		newNode.next = this.firstSentinel.next;
 		this.firstSentinel.next = newNode;
-		
+
 		this.size_++;
 		return newNode;
 	}
@@ -88,16 +88,16 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 	public Position<T> insertLast(T value){
 		Node newNode = new Node();
 		newNode.value = value;
-		
+
 		newNode.next = this.lastSentinel;
 		this.lastSentinel.previous.next = newNode;
 		newNode.previous = this.lastSentinel.previous;
 		this.lastSentinel.previous = newNode;
-		
+
 		this.size_++;
 		return newNode;
 	}
-	@Override
+
 	private Node checkPosition(Position<T> position) {
 		if (position == null) {
 			throw new IllegalArgumentException("position nao pode ser null");
@@ -105,13 +105,13 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 		if (position instanceof SequenceDoubleLinkedList.Node == false) {
 			throw new IllegalArgumentException("position nao eh valida para essa lista");
 		}
-		
+
 		Node node = (Node) position;  // conversao de Position para node, agora expoe os ponteiros alem do value
-		
+
 		if (node == this.firstSentinel || node == this.lastSentinel) {
 			throw new IllegalArgumentException("Eh um node sentinel");
 		}
-		
+
 		return node;
 	}
 	@Override
@@ -132,7 +132,7 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 		if (checkPosition(position).next == this.lastSentinel) {
 			throw new IllegalStateException("nao existe elemento depois do ultimo");
 		}
-		
+
 		return checkPosition(position).next;
 	}
 	@Override
@@ -142,7 +142,7 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 		}
 		T toRemove = checkPosition(position).value;
 		checkPosition(position).value = value;
-		
+
 		return toRemove;
 	}
 	@Override
@@ -150,7 +150,7 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
 		}
-		
+
 		Node nodeA = checkPosition(positionA);
 		Node nodeB = checkPosition(positionB);
 		T valueA = nodeA.value;
@@ -164,15 +164,15 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 		}
 		Node newNode = new Node();
 		newNode.value = value;
-		
+
 		Node current = checkPosition(position);
-		
+
 		current.previous.next = newNode;
 		newNode.previous = current.previous;
 		newNode.next = current;
 		current.previous = newNode;
 		this.size_++;
-		
+
 		return newNode;
 	}
 	@Override
@@ -180,10 +180,10 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 		if (isEmpty()) {
 			throw new IllegalStateException("sequencia vazia");
 		}
-		
+
 		Node newNode = new Node();
 		newNode.value = value;
-		
+
 		Node current = checkPosition(position);
 		current.next.previous = newNode;
 		newNode.next = current.next;
@@ -199,7 +199,7 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 		}
 		Node node = checkPosition(position);
 		T toRemove = node.value;
-		
+
 		node.previous.next = node.next;
 		node.next.previous = node.previous;
 		node.previous = null;
@@ -207,7 +207,70 @@ public class SequenceDoubleLinkedList<T> implements SequenceInterface<T>{
 		this.size_--;
 		return toRemove;
 	}
-	
-	
-	
+
+	@Override
+	public Position<T> atRank(int idx) {
+		if (idx < 0 || idx >= this.size_) {
+			throw new IllegalStateException("fora do range");
+		}
+		Node node = this.firstSentinel.next;
+
+		for (int i=0;i<idx;i++) {
+			node = node.next;
+		}
+		return node;
+	}
+
+	@Override
+	public int rankOf(Position<T> position) {
+		Node node = checkPosition(position);
+		int counter = -1;
+
+		while (node != this.firstSentinel) {
+			node = node.previous;
+			counter++;
+		}
+		return counter;
+	}
+	@Override
+	public T valueAtRank(int idx) {
+		 Position<T> position = atRank(idx);
+		 return position.value();
+		 // Node node = checkPosition(atRank(idx));
+		 // return node.value;
+	 }
+	 @Override
+	 public T replaceAtRank(int idx, T value) {
+		 Node node = checkPosition(atRank(idx));
+		 T toRemove = node.value;
+		 node.value = value;
+
+		 return toRemove;
+
+	 }
+	 @Override
+	 public void insertAtRank(int idx, T value) {
+		 Node current = checkPosition(atRank(idx));
+		 Node newNode = new Node();
+
+		 newNode.value = value;
+		 newNode.next = current;
+		 newNode.previous = current.previous;
+		 current.previous.next = newNode;
+		 current.previous = newNode;
+		 this.size_++;
+	 }
+	 @Override
+	 public T removeAtRank(int idx) {
+		 Node current = checkPosition(atRank(idx));
+		 T toRemove = current.value;
+		 current.previous.next = current.next;
+		 current.next.previous = current.previous;
+		 current.next = null;
+		 current.previous = null;
+		 this.size_--;
+		 return toRemove;
+	 }
+
+
 }
